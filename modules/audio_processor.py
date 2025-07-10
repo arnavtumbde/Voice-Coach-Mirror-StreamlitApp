@@ -31,6 +31,8 @@ class AudioProcessor:
             print("Audio system initialized successfully")
         except Exception as e:
             print(f"Error initializing audio: {e}")
+            # Don't fail completely if audio init fails in server environment
+            self.audio = None
     
     def reset_metrics(self):
         """Reset all metrics for a new session"""

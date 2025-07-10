@@ -41,6 +41,10 @@ class VideoProcessor:
                 
         except Exception as e:
             print(f"Error initializing face detection: {e}")
+            # Create dummy detectors to prevent crashes
+            self.detector = None
+            self.eye_detector = None
+            self.smile_detector = None
     
     def download_face_predictor(self, predictor_path):
         """Download the face landmarks predictor model - Not needed for OpenCV version"""
