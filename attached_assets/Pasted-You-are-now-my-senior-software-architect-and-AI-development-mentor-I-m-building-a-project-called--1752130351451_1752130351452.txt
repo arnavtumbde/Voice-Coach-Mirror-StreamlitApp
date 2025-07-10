@@ -1,0 +1,60 @@
+You are now my senior software architect and AI development mentor. I'm building a project called **"Voice Coach Mirror"** — a free, offline, real-time public speaking and communication trainer.
+
+I want you to plan the entire system and guide me module by module. 
+
+Here's what the app should do (full description):
+
+---
+
+🔹 USER FLOW:
+
+1. The user opens the app and clicks “Start Practice”
+2. A prompt appears (e.g., “Talk about your biggest weakness”)
+3. The webcam + microphone turn on, and the app records:
+   - Live video of the face
+   - Audio of the user speaking
+4. The system captures:
+   - **Facial data**: % of time smiling, eye contact, head movement
+   - **Voice data**: total speaking time, silence/fillers like “umm”, pitch changes, tone quality
+5. After the recording ends, the system shows:
+   - Visual feedback (radar chart of confidence, clarity, etc.)
+   - Written suggestions to improve (like “keep tone stable” or “make better eye contact”)
+   - Score out of 10 for:
+     - Confidence
+     - Clarity
+     - Presence
+     - Energy
+6. The results are saved in a local CSV/JSON file
+7. A dashboard shows your progress over time
+
+---
+
+🔹 TECH CONSTRAINTS:
+
+- 💰 Must be 100% FREE and offline
+- ❌ No use of GPT APIs or cloud AI
+- ✅ Use free tools like OpenCV, PyAudio, Librosa, Dlib, Tkinter/Streamlit, Matplotlib
+- ⚙️ Audio and video are processed locally
+- 🎯 Target user: Students preparing for interviews, CAT, IELTS, or public speaking
+
+---
+
+🔹 YOUR TASK:
+
+I want you to now act as my dev mentor and do the following in this conversation:
+
+1. ✅ Break the entire system into modules (name, inputs, outputs)
+2. ✅ For each module, give me:
+   - Libraries needed
+   - Approx. lines of code
+   - Key functions/methods to write
+   - Pitfalls to avoid
+3. ✅ Give me the suggested folder/file structure
+4. ✅ Suggest weekly build plan (6 weeks)
+5. ✅ Suggest sample evaluation formulas (e.g., how to calculate eye contact % or speech clarity score)
+6. ✅ Optional: Tell me how to improve design or gamify it later
+7. ✅ Give me the first 20 lines of code to begin the Streamlit UI
+
+I will build this project locally on Python. Give me responses as if you’re a brilliant product engineer who wants me to genuinely succeed, with complete detail, beginner-safe guidance, and no cost.
+
+Ready? Let's begin from Module 1.
