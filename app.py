@@ -14,7 +14,7 @@ import os
 from modules.video_processor import VideoProcessor
 from modules.audio_processor import AudioProcessor
 from modules.scoring_engine import ScoringEngine
-from modules.data_manager import DataManager
+from modules.database_manager import DatabaseManager
 from modules.practice_prompts import PracticePrompts
 
 # Initialize session state
@@ -31,7 +31,7 @@ if 'audio_processor' not in st.session_state:
 if 'scoring_engine' not in st.session_state:
     st.session_state.scoring_engine = ScoringEngine()
 if 'data_manager' not in st.session_state:
-    st.session_state.data_manager = DataManager()
+    st.session_state.data_manager = DatabaseManager()
 if 'practice_prompts' not in st.session_state:
     st.session_state.practice_prompts = PracticePrompts()
 
@@ -427,16 +427,162 @@ def progress_dashboard_page():
     """Display progress dashboard with historical data"""
     st.header("📊 Progress Dashboard")
     
-    # Load historical data
+    # Load historical data from database
     sessions = st.session_state.data_manager.load_sessions()
     
     if not sessions:
         st.info("No practice sessions recorded yet. Start your first practice session!")
         return
     
-    # Convert to DataFrame for easier manipulation
+    # Get performance statistics
+    stats = st.session_state.data_manager.get_performance_statistics()
+    
+    # Overall statistics
+    st.subheader("🏆 Overall Performance")
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.metric("Total Sessions", stats.get('total_sessions', 0))
+    
+    with col2:
+        avg_score = stats.get('avg_overall_score', 0)
+        st.metric("Average Score", f"{avg_score:.1f}/10")
+    
+    with col3:
+        avg_duration = stats.get('avg_duration', 0)
+        st.metric("Avg Duration", f"{avg_duration:.0f}s")
+    
+    with col4:
+        # Performance trend (simplified)
+        trend = "📈" if avg_score > 6 else "📊" if avg_score > 4 else "📉"
+        st.metric("Trend", trend)
+    
+    # Convert sessions to DataFrame for charts
     df = pd.DataFrame(sessions)
-    df['date'] = pd.to_datetime(df['start_time']).dt.date
+    
+    if len(df) > 0:
+        # Add date column for time-based analysis
+        df['date'] = pd.to_datetime(df['start_time']).dt.date
+        
+        # Performance over time chart
+        st.subheader("📈 Performance Over Time")
+        
+        # Create scores DataFrame from the nested scores dictionary
+        scores_data = []
+        for _, row in df.iterrows():
+            scores = row['scores']
+            scores_data.append({
+                'date': row['date'],
+                'start_time': row['start_time'],
+                'confidence': scores.get('confidence', 0),
+                'clarity': scores.get('clarity', 0),
+                'presence': scores.get('presence', 0),
+                'energy': scores.get('energy', 0),
+                'overall': scores.get('overall', 0)
+            })
+        
+        scores_df = pd.DataFrame(scores_data)
+        
+        if len(scores_df) > 0:
+            # Line chart for performance trends
+            fig = go.Figure()
+            
+            categories = ['confidence', 'clarity', 'presence', 'energy', 'overall']
+            colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57']
+            
+            for i, category in enumerate(categories):
+                fig.add_trace(go.Scatter(
+                    x=scores_df['start_time'],
+                    y=scores_df[category],
+                    mode='lines+markers',
+                    name=category.title(),
+                    line=dict(color=colors[i])
+                ))
+            
+            fig.update_layout(
+                title="Performance Trends",
+                xaxis_title="Date",
+                yaxis_title="Score (0-10)",
+                yaxis=dict(range=[0, 10]),
+                hovermode='x unified'
+            )
+            
+            st.plotly_chart(fig, use_container_width=True)
+        
+        # Recent sessions summary
+        st.subheader("📋 Recent Sessions")
+        
+        # Display recent sessions in a table
+        recent_sessions = df.head(10).copy()
+        
+        # Format the data for display
+        display_data = []
+        for _, row in recent_sessions.iterrows():
+            scores = row['scores']
+            display_data.append({
+                'Date': row['start_time'].strftime('%Y-%m-%d %H:%M'),
+                'Duration': f"{row['duration']:.0f}s",
+                'Prompt': row['prompt'][:50] + "..." if len(row['prompt']) > 50 else row['prompt'],
+                'Overall Score': f"{scores.get('overall', 0):.1f}/10",
+                'Confidence': f"{scores.get('confidence', 0):.1f}",
+                'Clarity': f"{scores.get('clarity', 0):.1f}",
+                'Presence': f"{scores.get('presence', 0):.1f}",
+                'Energy': f"{scores.get('energy', 0):.1f}"
+            })
+        
+        if display_data:
+            st.dataframe(pd.DataFrame(display_data), use_container_width=True)
+        
+        # Category breakdown
+        st.subheader("📊 Performance by Category")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            # Average scores by category
+            avg_scores = {
+                'Confidence': stats.get('avg_confidence', 0),
+                'Clarity': stats.get('avg_clarity', 0),
+                'Presence': stats.get('avg_presence', 0),
+                'Energy': stats.get('avg_energy', 0)
+            }
+            
+            fig = go.Figure(data=[
+                go.Bar(
+                    x=list(avg_scores.keys()),
+                    y=list(avg_scores.values()),
+                    marker_color=['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4']
+                )
+            ])
+            
+            fig.update_layout(
+                title="Average Scores by Category",
+                yaxis=dict(range=[0, 10]),
+                yaxis_title="Score (0-10)"
+            )
+            
+            st.plotly_chart(fig, use_container_width=True)
+        
+        with col2:
+            # Session frequency
+            session_counts = df['date'].value_counts().sort_index()
+            
+            if len(session_counts) > 0:
+                fig = go.Figure(data=[
+                    go.Bar(
+                        x=session_counts.index,
+                        y=session_counts.values,
+                        marker_color='#FECA57'
+                    )
+                ])
+                
+                fig.update_layout(
+                    title="Sessions per Day",
+                    xaxis_title="Date",
+                    yaxis_title="Number of Sessions"
+                )
+                
+                st.plotly_chart(fig, use_container_width=True)
     
     # Summary statistics
     col1, col2, col3, col4 = st.columns(4)
@@ -578,12 +724,28 @@ def check_devices():
 
 def export_data():
     """Export session data to CSV"""
-    sessions = st.session_state.data_manager.load_sessions()
+    sessions = st.session_state.data_manager.load_sessions(limit=1000)
     if not sessions:
         st.warning("No data to export.")
         return
     
-    df = pd.DataFrame(sessions)
+    # Prepare data for export
+    export_data = []
+    for session in sessions:
+        scores = session.get('scores', {})
+        export_data.append({
+            'Session ID': session.get('session_id', ''),
+            'Date': session.get('start_time', '').strftime('%Y-%m-%d %H:%M:%S') if session.get('start_time') else '',
+            'Duration (seconds)': session.get('duration', 0),
+            'Prompt': session.get('prompt', ''),
+            'Overall Score': scores.get('overall', 0),
+            'Confidence Score': scores.get('confidence', 0),
+            'Clarity Score': scores.get('clarity', 0),
+            'Presence Score': scores.get('presence', 0),
+            'Energy Score': scores.get('energy', 0)
+        })
+    
+    df = pd.DataFrame(export_data)
     csv = df.to_csv(index=False)
     
     st.download_button(
@@ -601,11 +763,7 @@ def clear_all_data():
 
 def get_data_size():
     """Get the size of stored data in MB"""
-    try:
-        size = os.path.getsize('data/sessions.json')
-        return round(size / (1024 * 1024), 2)
-    except:
-        return 0
+    return st.session_state.data_manager.get_data_size()
 
 if __name__ == "__main__":
     main()

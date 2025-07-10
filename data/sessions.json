@@ -70,5 +70,77 @@
       "speech_segments": 0,
       "estimated_words": 0
     }
+  },
+  {
+    "session_id": "20250710_082019_972133",
+    "start_time": "2025-07-10T08:20:14.702446",
+    "end_time": "2025-07-10T08:20:19.971316",
+    "duration": 5.26882,
+    "prompt": "If you could live in any time period, which would you choose?",
+    "scores": {
+      "confidence": 0.0,
+      "clarity": 3.0,
+      "presence": 0.0,
+      "energy": 2.0,
+      "feedback": [
+        "Try to maintain more eye contact with the camera",
+        "Make sure you're clearly visible in the frame",
+        "Try to keep your head more stable while speaking",
+        "Try to speak a bit faster - aim for 120-150 words per minute",
+        "Try to maintain consistent volume throughout",
+        "Smile more to appear more engaging and confident",
+        "Put more energy and enthusiasm into your voice",
+        "Vary your pitch more to sound more dynamic"
+      ]
+    },
+    "video_summary": {
+      "total_frames": 0,
+      "face_detection_rate": 0,
+      "eye_contact_percentage": 0,
+      "smile_percentage": 0,
+      "average_confidence": 0
+    },
+    "audio_summary": {
+      "total_chunks": 0,
+      "average_volume": 0,
+      "speech_segments": 0,
+      "estimated_words": 0
+    }
+  },
+  {
+    "session_id": "20250710_082059_972278",
+    "start_time": "2025-07-10T08:20:53.669566",
+    "end_time": "2025-07-10T08:20:59.971184",
+    "duration": 6.301573,
+    "prompt": "Give a product pitch for something you use daily.",
+    "scores": {
+      "confidence": 0.0,
+      "clarity": 3.0,
+      "presence": 0.0,
+      "energy": 2.0,
+      "feedback": [
+        "Try to maintain more eye contact with the camera",
+        "Make sure you're clearly visible in the frame",
+        "Try to keep your head more stable while speaking",
+        "Try to speak a bit faster - aim for 120-150 words per minute",
+        "Try to maintain consistent volume throughout",
+        "Smile more to appear more engaging and confident",
+        "Put more energy and enthusiasm into your voice",
+        "Vary your pitch more to sound more dynamic"
+      ]
+    },
+    "video_summary": {
+      "total_frames": 0,
+      "face_detection_rate": 0,
+      "eye_contact_percentage": 0,
+      "smile_percentage": 0,
+      "average_confidence": 0
+    },
+    "audio_summary": {
+      "total_chunks": 0,
+      "average_volume": 0,
+      "speech_segments": 0,
+      "estimated_words": 0
+    }
   }
 ]

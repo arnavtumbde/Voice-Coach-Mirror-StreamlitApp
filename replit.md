@@ -65,14 +65,15 @@ The application follows a modular architecture with clear separation of concerns
   - Energy (voice energy, pitch variation, engagement)
 - **Weighting System**: Configurable weights for different metrics
 
-### 4. Data Manager (`modules/data_manager.py`)
-- **Purpose**: Handles session storage and retrieval
-- **Storage Format**: JSON files for structured data
+### 4. Database Manager (`modules/database_manager.py`)
+- **Purpose**: Handles session storage and retrieval using PostgreSQL
+- **Storage Format**: Relational database with structured tables
 - **Features**:
-  - Session serialization
-  - Progress tracking
-  - Data summarization
-  - Backup functionality
+  - Session persistence with scores and metrics
+  - Performance statistics and analytics
+  - Progress tracking over time
+  - CSV export functionality
+  - Data integrity and relationships
 
 ### 5. Practice Prompts (`modules/practice_prompts.py`)
 - **Purpose**: Provides curated practice scenarios
@@ -92,7 +93,7 @@ The application follows a modular architecture with clear separation of concerns
    - Audio chunks processed for voice metrics
 4. **Score Calculation**: Multi-dimensional scoring based on collected metrics
 5. **Feedback Generation**: Visual and textual feedback presentation
-6. **Data Persistence**: Session results saved to local JSON storage
+6. **Data Persistence**: Session results saved to PostgreSQL database
 7. **Progress Tracking**: Historical data visualization
 
 ## External Dependencies
@@ -100,21 +101,25 @@ The application follows a modular architecture with clear separation of concerns
 ### Required Python Packages
 - **streamlit**: Web application framework
 - **opencv-python**: Computer vision processing
-- **dlib**: Face detection and landmark prediction
 - **pyaudio**: Audio capture and processing
-- **librosa**: Audio analysis
 - **numpy**: Numerical computations
 - **pandas**: Data manipulation
 - **plotly**: Interactive visualizations
+- **psycopg2-binary**: PostgreSQL database adapter
+- **sqlalchemy**: Database ORM and connection management
 
 ### External Models
 - **shape_predictor_68_face_landmarks.dat**: Dlib's face landmark predictor model
 - **Download Strategy**: Automatic download from dlib-models repository if not present
 
+### Database Requirements
+- **PostgreSQL**: Primary database for session storage and analytics
+- **Environment Variables**: DATABASE_URL, PGPORT, PGUSER, PGPASSWORD, PGDATABASE, PGHOST
+
 ### System Requirements
 - **Camera**: Webcam for video capture
 - **Microphone**: Audio input device
-- **Storage**: Local file system for data persistence
+- **Database**: PostgreSQL for persistent data storage
 - **Processing**: CPU-based processing (no GPU required)
 
 ## Deployment Strategy
