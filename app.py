@@ -85,7 +85,18 @@ def practice_session_page():
             camera_placeholder = st.empty()
             with camera_placeholder.container():
                 st.info("📹 Camera feed would appear here\n(Camera not available in this environment)")
-                st.image("https://via.placeholder.com/640x480/cccccc/666666?text=Camera+Preview", caption="Your video preview")
+                
+                # Create SVG camera preview placeholder
+                camera_svg = """
+                <svg width="640" height="480" viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="640" height="480" fill="#f0f0f0" stroke="#ccc" stroke-width="2"/>
+                    <circle cx="320" cy="200" r="80" fill="#ddd" stroke="#999" stroke-width="2"/>
+                    <circle cx="320" cy="200" r="40" fill="#999"/>
+                    <text x="320" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#666">Camera Preview</text>
+                    <text x="320" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#999">Your video would appear here</text>
+                </svg>
+                """
+                st.markdown(camera_svg, unsafe_allow_html=True)
         
         with col2:
             st.subheader("📝 Practice Task")
@@ -132,7 +143,21 @@ def practice_session_page():
             recording_placeholder = st.empty()
             with recording_placeholder.container():
                 st.error("🔴 Recording your presentation...")
-                st.image("https://via.placeholder.com/640x480/ff6b6b/ffffff?text=RECORDING", caption="Recording your presentation")
+                
+                # Create SVG recording indicator
+                recording_svg = """
+                <svg width="640" height="480" viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="640" height="480" fill="#ff6b6b" stroke="#ff4444" stroke-width="3"/>
+                    <circle cx="320" cy="200" r="80" fill="#ffffff" stroke="#ff4444" stroke-width="3"/>
+                    <circle cx="320" cy="200" r="30" fill="#ff4444"/>
+                    <text x="320" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" fill="#ffffff" font-weight="bold">RECORDING</text>
+                    <text x="320" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#ffffff">Your presentation is being recorded</text>
+                    <circle cx="50" cy="50" r="15" fill="#ffffff">
+                        <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+                    </circle>
+                </svg>
+                """
+                st.markdown(recording_svg, unsafe_allow_html=True)
             
             # Stop recording button
             if st.button("⏹️ Stop Recording", key="stop_recording"):
@@ -519,8 +544,15 @@ def progress_dashboard_page():
         display_data = []
         for _, row in recent_sessions.iterrows():
             scores = row['scores']
+            # Handle datetime objects properly
+            start_time = row['start_time']
+            if isinstance(start_time, str):
+                date_str = pd.to_datetime(start_time).strftime('%Y-%m-%d %H:%M')
+            else:
+                date_str = start_time.strftime('%Y-%m-%d %H:%M')
+            
             display_data.append({
-                'Date': row['start_time'].strftime('%Y-%m-%d %H:%M'),
+                'Date': date_str,
                 'Duration': f"{row['duration']:.0f}s",
                 'Prompt': row['prompt'][:50] + "..." if len(row['prompt']) > 50 else row['prompt'],
                 'Overall Score': f"{scores.get('overall', 0):.1f}/10",
@@ -733,9 +765,18 @@ def export_data():
     export_data = []
     for session in sessions:
         scores = session.get('scores', {})
+        # Handle datetime objects properly
+        start_time = session.get('start_time')
+        if isinstance(start_time, str):
+            date_str = pd.to_datetime(start_time).strftime('%Y-%m-%d %H:%M:%S')
+        elif start_time:
+            date_str = start_time.strftime('%Y-%m-%d %H:%M:%S')
+        else:
+            date_str = ''
+        
         export_data.append({
             'Session ID': session.get('session_id', ''),
-            'Date': session.get('start_time', '').strftime('%Y-%m-%d %H:%M:%S') if session.get('start_time') else '',
+            'Date': date_str,
             'Duration (seconds)': session.get('duration', 0),
             'Prompt': session.get('prompt', ''),
             'Overall Score': scores.get('overall', 0),
