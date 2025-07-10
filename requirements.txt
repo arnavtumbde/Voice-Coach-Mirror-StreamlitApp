@@ -1,0 +1,26 @@
+# Streamlit frontend
+streamlit==1.33.0
+
+# Video processing
+opencv-python==4.9.0.80
+dlib==19.24.0
+
+# Audio processing
+pyaudio==0.2.13
+librosa==0.10.1
+soundfile==0.12.1
+
+# Numerical & Data Handling
+numpy==1.24.4
+pandas==2.2.2
+
+# Visualization
+plotly==5.20.0
+
+# Database
+sqlalchemy==2.0.30
+psycopg2-binary==2.9.9
+
+# Utility
+requests==2.31.0
+python-dotenv==1.0.1  # for loading .env configs
