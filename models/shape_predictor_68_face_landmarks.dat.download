@@ -1,0 +1,14 @@
+# This file serves as a placeholder for the face landmarks model
+# The actual model will be downloaded automatically when the application starts
+# Model URL: https://github.com/davisking/dlib-models/raw/master/shape_predictor_68_face_landmarks.dat.bz2
+# 
+# The VideoProcessor will handle the download and extraction automatically
+# File size: ~95MB (compressed), ~99MB (uncompressed)
+# 
+# This model is required for:
+# - Face landmark detection
+# - Eye contact analysis
+# - Smile detection
+# - Head position tracking
+#
+# If download fails, some features will be limited but the app will still function
