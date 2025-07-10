@@ -1,1 +1,74 @@
-[]
+[
+  {
+    "session_id": "20250710_071248_899003",
+    "start_time": "2025-07-10T07:12:42.616942",
+    "end_time": "2025-07-10T07:12:48.898840",
+    "duration": 6.281882,
+    "prompt": "What's something you've learned recently that surprised you?",
+    "scores": {
+      "confidence": 0.0,
+      "clarity": 3.0,
+      "presence": 0.0,
+      "energy": 2.0,
+      "feedback": [
+        "Try to maintain more eye contact with the camera",
+        "Make sure you're clearly visible in the frame",
+        "Try to keep your head more stable while speaking",
+        "Try to speak a bit faster - aim for 120-150 words per minute",
+        "Try to maintain consistent volume throughout",
+        "Smile more to appear more engaging and confident",
+        "Put more energy and enthusiasm into your voice",
+        "Vary your pitch more to sound more dynamic"
+      ]
+    },
+    "video_summary": {
+      "total_frames": 0,
+      "face_detection_rate": 0,
+      "eye_contact_percentage": 0,
+      "smile_percentage": 0,
+      "average_confidence": 0
+    },
+    "audio_summary": {
+      "total_chunks": 0,
+      "average_volume": 0,
+      "speech_segments": 0,
+      "estimated_words": 0
+    }
+  },
+  {
+    "session_id": "20250710_071314_642951",
+    "start_time": "2025-07-10T07:13:07.997931",
+    "end_time": "2025-07-10T07:13:14.642048",
+    "duration": 6.644101,
+    "prompt": "Give a product pitch for something you use daily.",
+    "scores": {
+      "confidence": 0.0,
+      "clarity": 3.0,
+      "presence": 0.0,
+      "energy": 2.0,
+      "feedback": [
+        "Try to maintain more eye contact with the camera",
+        "Make sure you're clearly visible in the frame",
+        "Try to keep your head more stable while speaking",
+        "Try to speak a bit faster - aim for 120-150 words per minute",
+        "Try to maintain consistent volume throughout",
+        "Smile more to appear more engaging and confident",
+        "Put more energy and enthusiasm into your voice",
+        "Vary your pitch more to sound more dynamic"
+      ]
+    },
+    "video_summary": {
+      "total_frames": 0,
+      "face_detection_rate": 0,
+      "eye_contact_percentage": 0,
+      "smile_percentage": 0,
+      "average_confidence": 0
+    },
+    "audio_summary": {
+      "total_chunks": 0,
+      "average_volume": 0,
+      "speech_segments": 0,
+      "estimated_words": 0
+    }
+  }
+]
